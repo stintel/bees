@@ -192,7 +192,9 @@ namespace crucible {
 		lock.unlock();
 
 		char buf[24] = { 0 };
+#if !defined(__MUSL__)
 		DIE_IF_MINUS_ERRNO(pthread_getname_np(pthread_self(), buf, sizeof(buf)));
+#endif
 		DIE_IF_MINUS_ERRNO(pthread_setname_np(pthread_self(), m_title.c_str()));
 
 		weak_ptr<TaskState> this_task_wp = shared_from_this();
